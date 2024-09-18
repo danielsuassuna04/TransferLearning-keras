@@ -31,7 +31,7 @@ The project includes the following key steps:
   We compile the model with categorical cross-entropy as the loss function and Adam as the optimizer.
      ```python
       optimizer = keras.optimizers.Adam(learning_rate=0.01,weight_decay=0.01)
-      model.compile(loss="sparse_categorical_crossentropy",optimizer=optimizer,metrics=['accuracy'])
+      model.compile(loss="sparse_categorical_crossentropy",optimizer=optimizer,metrics='accuracy')
    ```
 5. ## Training the Model:
   We train the model using the CIFAR-10 dataset, first training the custom layers, followed by fine-tuning the entire model.
