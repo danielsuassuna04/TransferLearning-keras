@@ -35,7 +35,7 @@ The project includes the following key steps:
 ```
 5. ## Training the Model:
   We train the model using the CIFAR-10 dataset, first training the custom layers, followed by fine-tuning the entire model.
-     ```python
+```python
       early = keras.callbacks.EarlyStopping(patience=5,restore_best_weights=True)
 checkpoint = keras.callbacks.ModelCheckpoint(
     filepath='best_model.weights.h5',
@@ -46,7 +46,7 @@ checkpoint = keras.callbacks.ModelCheckpoint(
     verbose=1
 )
 history = model.fit(train_dataset,epochs=20,validation_data=test_dataset,callbacks=[early,checkpoint])
-   ```
+```
 6. ## loading the bests weights:
    ```
    model.load_weights("best_model.weights.h5")
