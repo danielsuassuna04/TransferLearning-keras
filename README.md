@@ -1,4 +1,4 @@
-# Transfer Learning with ResNet-50 on CIFAR-10
+# Transfer Learning with ResNet-152 on CIFAR-10
 
 This project demonstrates how to apply Transfer Learning using the __ResNet-50__ architecture on the __CIFAR-10__ dataset. Transfer learning allows leveraging a pre-trained model (ResNet-50 trained on ImageNet) to improve performance on the target task (CIFAR-10 classification), saving time and computational resources.
 
@@ -6,13 +6,13 @@ This project demonstrates how to apply Transfer Learning using the __ResNet-50__
 
 The project includes the following key steps:
 
-1. __Loading the ResNet-50 model__: We use ResNet-50 pre-trained on ImageNet without its final fully connected layers (include_top=False).
-2. __Modifying the ResNet-50 architecture__: We add a global average pooling layer, a dropout layer for regularization, and a final dense layer with softmax activation for classification into the 10 classes of CIFAR-10.
+1. __Loading the ResNet-152 model__: We use ResNet-50 pre-trained on ImageNet without its final fully connected layers (include_top=False).
+2. __Modifying the ResNet-152 architecture__: We add a global average pooling layer, a dropout layer for regularization, and a final dense layer with softmax activation for classification into the 10 classes of CIFAR-10.
 
 ## Steps in the Project
 
-1. ## Loading the Pre-trained ResNet-50 Model:
-   We load the ResNet-50 model with weights pre-trained on the ImageNet dataset. The top layers are excluded to allow for customization:
+1. ## Loading the Pre-trained ResNet-152 Model:
+   We load the ResNet-152 model with weights pre-trained on the ImageNet dataset. The top layers are excluded to allow for customization:
    ```python
    base_model = keras.applications.ResNet50(weights="imagenet", include_top=False)
    ```
@@ -22,7 +22,7 @@ The project includes the following key steps:
    * A dropout layer with a 50% rate to prevent overfitting.
    * A dense layer with 10 output units and softmax activation for classification.
 3. ## Freezing Layers and Training the Top Layers:
-    Initially, we freeze all layers in the ResNet-50 base model to train only the added layers.
+    Initially, we freeze all layers in the ResNet-152 base model to train only the added layers.
    ```python
    for layer in base_model.layers:
       layer.trainable = False
@@ -61,7 +61,7 @@ The __CIFAR-10 dataset__ consists of 60,000 32x32 color images in 10 different c
 # Results
 * we trained only the new top layers added to the model.
 * The model can be used for CIFAR-10 classification or adapted for other similar tasks using transfer learning.
-* we get 87% of accuracy in the test set
+* we get 92% of accuracy in the test set
 # How to Use
 1. Clone or download this repository.
 2. Install the required dependencies (TensorFlow and Keras).
