@@ -1,6 +1,6 @@
 # Transfer Learning with ResNet-152 on CIFAR-10
 
-This project demonstrates how to apply Transfer Learning using the __ResNet-50__ architecture on the __CIFAR-10__ dataset. Transfer learning allows leveraging a pre-trained model (ResNet-50 trained on ImageNet) to improve performance on the target task (CIFAR-10 classification), saving time and computational resources.
+This project demonstrates how to apply Transfer Learning using the __ResNet-152__ architecture on the __CIFAR-10__ dataset. Transfer learning allows leveraging a pre-trained model (ResNet-152 trained on ImageNet) to improve performance on the target task (CIFAR-10 classification), saving time and computational resources.
 
 ## Overview
 
@@ -14,13 +14,13 @@ The project includes the following key steps:
 1. ## Loading the Pre-trained ResNet-152 Model:
    We load the ResNet-152 model with weights pre-trained on the ImageNet dataset. The top layers are excluded to allow for customization:
    ```python
-   base_model = keras.applications.ResNet50(weights="imagenet", include_top=False)
+   base_model = keras.applications.ResNet152(weights="imagenet", include_top=False)
    ```
 2. ## Adding Custom Layers:
-   We add several custom layers on top of ResNet-50 for the CIFAR-10 classification task:
+   We add several custom layers on top of ResNet-152 for the CIFAR-10 classification task:
    * A global average pooling layer to reduce dimensionality.
    * A dropout layer with a 50% rate to prevent overfitting.
-   * A dense layer with 10 output units and softmax activation for classification.
+   * A dense layer with the number of classes output units and softmax activation for classification.
 3. ## Freezing Layers and Training the Top Layers:
     Initially, we freeze all layers in the ResNet-152 base model to train only the added layers.
    ```python
@@ -56,6 +56,25 @@ history = model.fit(train_dataset,epochs=20,validation_data=test_dataset,callbac
    ```python
    model.evaluate(test_dataset)
    ```
+8. ## Fine-tuning
+   After training the custom fully connected layers, you can improve the model's performance by fine-tuning some of the deeper layers in the ResNet-152          
+   architecture. Fine-tuning allows the pre-trained layers to adapt to your specific dataset while preserving the knowledge they gained from the ImageNet dataset.
+
+   To fine-tune the model, you need to unfreeze a portion of the ResNet-152 layers and decrease the learning rate. A smaller learning rate ensures that the pre- 
+   trained weights are adjusted carefully, preventing drastic updates that could destroy the previously learned features.
+9. ## Evaluating the Model again:
+Finally, we evaluate the model again after fine-tuning to check the final accuracy.
+
+Here’s how to fine-tune the model:
+```
+# Unfreeze the last 10 layers of ResNet-152
+for layer in base_model.layers[-10:]:
+    layer.trainable = True
+
+# Compile the model with a reduced learning rate
+model.compile(optimizer=Adam(learning_rate=1e-5), loss='categorical_crossentropy', metrics=['accuracy'])
+```
+   
 # Dataset
 The __CIFAR-10 dataset__ consists of 60,000 32x32 color images in 10 different classes, with 50,000 training images and 10,000 test images.
 # Results
